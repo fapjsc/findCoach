@@ -2,21 +2,51 @@
   <base-card>
     <h2>Find Your Coach</h2>
     <span class="filter-option">
-      <input type="checkbox" id="frontend" checked />
+      <input type="checkbox" id="frontend" checked @change="updateFilters" />
       <label for="frontend">Frontend</label>
     </span>
 
     <span class="filter-option">
-      <input type="checkbox" id="backend" checked />
+      <input type="checkbox" id="backend" checked @change="updateFilters" />
       <label for="backend">Backend</label>
     </span>
 
     <span class="filter-option">
-      <input type="checkbox" id="career" checked />
+      <input type="checkbox" id="career" checked @change="updateFilters" />
       <label for="career">Career</label>
     </span>
   </base-card>
 </template>
+
+
+<script>
+export default {
+  emits: ['change-filter'],
+  data() {
+    return {
+      filters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  methods: {
+    updateFilters(event) {
+      const inputId = event.target.id;
+      const isActive = event.target.checked;
+      const updatefilter = {
+        ...this.filters,
+        [inputId]: isActive,
+      };
+
+      this.filters = updatefilter;
+      this.$emit('change-filter', updatefilter);
+    },
+  },
+};
+</script>
 
 
 
