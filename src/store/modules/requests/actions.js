@@ -21,8 +21,6 @@ export default {
       throw error;
     }
 
-    console.log(data);
-
     newRequest.id = data.name;
     newRequest.coachId = payload.coachId;
     context.commit('addRequest', newRequest);

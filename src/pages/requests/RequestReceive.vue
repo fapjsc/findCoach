@@ -66,7 +66,6 @@ export default {
 
     handleError() {
       this.error = null;
-      console.log('hi');
     },
   },
 };
