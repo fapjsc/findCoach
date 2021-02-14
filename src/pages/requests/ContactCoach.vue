@@ -1,4 +1,11 @@
 <template>
+  <base-dialog
+    :show="!!error"
+    :title="'something went wrong'"
+    @close="handleError"
+  >
+    {{ error }}
+  </base-dialog>
   <form @submit.prevent="formSubmit">
     <div class="form-control">
       <label for="email">Your email</label>
@@ -27,11 +34,12 @@ export default {
       email: '',
       message: '',
       formIsValid: true,
+      error: null,
     };
   },
 
   methods: {
-    formSubmit() {
+    async formSubmit() {
       this.formIsValid = true;
 
       if (
@@ -43,13 +51,21 @@ export default {
         return;
       }
 
-      this.$store.dispatch('requests/contactCoach', {
-        email: this.email,
-        message: this.message,
-        coachId: this.$route.params.id,
-      });
+      try {
+        await this.$store.dispatch('requests/contactCoach', {
+          email: this.email,
+          message: this.message,
+          coachId: this.$route.params.id,
+        });
 
-      this.$router.replace('/coaches');
+        this.$router.replace('/coaches');
+      } catch (error) {
+        this.error = error || 'send request error';
+      }
+    },
+
+    handleError() {
+      this.error = null;
     },
   },
 };
