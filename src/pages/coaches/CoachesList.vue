@@ -6,13 +6,15 @@
   <section>
     <base-card>
       <div class="controls">
-        <base-button class="outline">Refresh</base-button>
-        <base-button v-if="!isCoach" link to="/register"
+        <base-button @click="loadCoaches" class="outline">Refresh</base-button>
+        <base-button v-if="!isCoach && !isLoading" link to="/register"
           >Register as coach</base-button
         >
       </div>
 
-      <ul v-if="hasCoaches">
+      <base-spinner v-if="isLoading"></base-spinner>
+
+      <ul v-else-if="hasCoaches">
         <CoachItem
           v-for="coach in filteredCoaches"
           :key="coach.id"
@@ -31,6 +33,9 @@ import CoachItem from '@/components/coaches/CoachItem';
 import CoachFilter from '@/components/coaches/CoachFilter';
 
 export default {
+  created() {
+    this.loadCoaches();
+  },
   data() {
     return {
       filterActive: {
@@ -38,6 +43,8 @@ export default {
         backend: true,
         career: true,
       },
+
+      isLoading: false,
     };
   },
   components: {
@@ -77,6 +84,12 @@ export default {
   methods: {
     setFilter(updatefilter) {
       this.filterActive = updatefilter;
+    },
+
+    async loadCoaches() {
+      this.isLoading = true;
+      await this.$store.dispatch('coaches/loadCoaches');
+      this.isLoading = false;
     },
   },
 };

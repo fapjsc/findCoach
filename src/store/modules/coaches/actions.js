@@ -1,7 +1,7 @@
 export default {
-  registerCoach(context, payload) {
-    const data = {
-      id: context.rootGetters.userId,
+  async registerCoach(context, payload) {
+    const userId = context.rootGetters.userId;
+    const registerdata = {
       firstName: payload.first,
       lastName: payload.last,
       areas: payload.areas,
@@ -9,6 +9,52 @@ export default {
       hourlyRate: payload.rate
     };
 
-    context.commit('registerCoach', data);
+    const res = await fetch(
+      `https://findcoach-6205f-default-rtdb.firebaseio.com//coaches/${userId}.json`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(registerdata)
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.log(data);
+    }
+
+    context.commit('registerCoach', {
+      ...registerdata,
+      id: userId
+    });
+  },
+
+  async loadCoaches(context) {
+    const res = await fetch(
+      `https://findcoach-6205f-default-rtdb.firebaseio.com//coaches.json`
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.log(data);
+    }
+
+    const coaches = [];
+
+    for (const key in data) {
+      const coach = {
+        id: key,
+        firstName: data[key].firstName,
+        lastName: data[key].lastName,
+        areas: data[key].areas,
+        description: data[key].description,
+        hourlyRate: data[key].hourlyRate
+      };
+
+      coaches.push(coach);
+    }
+
+    context.commit('setCoaches', coaches);
   }
 };
