@@ -1,24 +1,32 @@
 <template>
-  <base-card>
-    <form @submit.prevent="submitForm">
-      <div class="form-control">
-        <label for="email">Email</label>
-        <input type="text" id="email" v-model.trim="email" />
-      </div>
+  <div>
+    <base-dialog :show="!!error" title="註冊失敗" @close="handleError">
+      {{ error }}
+    </base-dialog>
+    <base-dialog :show="isLoading" fixed title="請稍等">
+      <base-spinner></base-spinner>
+    </base-dialog>
+    <base-card>
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <label for="email">Email</label>
+          <input type="text" id="email" v-model.trim="email" />
+        </div>
 
-      <div class="form-control">
-        <label for="password">password</label>
-        <input type="password" id="password" v-model.trim="password" />
-      </div>
+        <div class="form-control">
+          <label for="password">password</label>
+          <input type="password" id="password" v-model.trim="password" />
+        </div>
 
-      <p v-if="!formIsValid">請輸入有效的email,且密碼至少3位數</p>
+        <p v-if="!formIsValid">請輸入有效的email,且密碼至少3位數</p>
 
-      <base-button>{{ submitBtnCaption }}</base-button>
-      <base-button @click="switchAuthMode" type="button" mode="flat">
-        {{ switchBtnCaption }}
-      </base-button>
-    </form>
-  </base-card>
+        <base-button>{{ submitBtnCaption }}</base-button>
+        <base-button @click="switchAuthMode" type="button" mode="flat">
+          {{ switchBtnCaption }}
+        </base-button>
+      </form>
+    </base-card>
+  </div>
 </template>
 
 
@@ -30,6 +38,8 @@ export default {
       email: '',
       password: null,
       formIsValid: true,
+      isLoading: false,
+      error: null,
     };
   },
 
@@ -60,23 +70,28 @@ export default {
       }
     },
 
-    submitForm() {
+    async submitForm() {
       this.formIsValid = true;
       this.formValidation();
 
       if (!this.formIsValid) {
         return;
       }
-      // send http
 
-      if (this.mode === '註冊') {
-        this.$store.dispatch('signup', {
-          email: this.email,
-          password: this.password,
-        });
-      } else {
-        // 登入
+      this.isLoading = true;
+      try {
+        if (this.mode === '註冊') {
+          console.log('hi');
+          await this.$store.dispatch('signup', {
+            email: this.email,
+            password: this.password,
+          });
+        }
+      } catch (error) {
+        this.error = error;
       }
+
+      this.isLoading = false;
     },
 
     formValidation() {
@@ -87,6 +102,10 @@ export default {
       ) {
         this.formIsValid = false;
       }
+    },
+
+    handleError() {
+      this.error = null;
     },
   },
 };

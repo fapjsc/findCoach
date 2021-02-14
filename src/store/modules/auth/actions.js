@@ -16,7 +16,7 @@ export default {
 
     if (!res.ok) {
       console.log(resData);
-      const error = new Error(resData.message || 'Failed to signup');
+      const error = new Error(resData.error.message || 'Failed to signup');
       throw error;
     }
 
