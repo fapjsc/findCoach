@@ -8,14 +8,36 @@
         <li>
           <router-link to="/coaches">All Coach</router-link>
         </li>
-        <li>
+        <li v-if="isLogin">
           <router-link to="/requests">Requests</router-link>
         </li>
+
+        <li v-if="!isLogin">
+          <router-link to="/auth">登入</router-link>
+        </li>
+
+        <base-button @click="logout" v-if="isLogin" mode="">登出</base-button>
       </ul>
     </nav>
   </header>
 </template>
 
+
+<script>
+export default {
+  computed: {
+    isLogin() {
+      return this.$store.getters['isVerification'];
+    },
+  },
+
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+    },
+  },
+};
+</script>
 
 
 <style scoped>

@@ -53,5 +53,13 @@ export default {
       token: resData.idToken,
       expiresIn: resData.expiresIn
     });
+  },
+
+  logout(context) {
+    context.commit('setUser', {
+      token: null,
+      userId: null,
+      expiresIn: null
+    });
   }
 };
