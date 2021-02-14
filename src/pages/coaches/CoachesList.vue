@@ -1,4 +1,11 @@
 <template>
+  <base-dialog
+    :show="!!error"
+    :title="'smoething is wrong'"
+    @close="handleError"
+  >
+    {{ error }}
+  </base-dialog>
   <section>
     <CoachFilter @changeFilter="setFilter" />
   </section>
@@ -45,6 +52,7 @@ export default {
       },
 
       isLoading: false,
+      error: null,
     };
   },
   components: {
@@ -88,8 +96,16 @@ export default {
 
     async loadCoaches() {
       this.isLoading = true;
-      await this.$store.dispatch('coaches/loadCoaches');
+      try {
+        await this.$store.dispatch('coaches/loadCoaches');
+      } catch (error) {
+        this.error = error || 'fetch coaches error';
+      }
       this.isLoading = false;
+    },
+
+    handleError() {
+      this.error = null;
     },
   },
 };

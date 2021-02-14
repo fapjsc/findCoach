@@ -5,6 +5,5 @@ export default {
 
   setCoaches(state, payload) {
     state.coaches = payload;
-    console.log(payload);
-  }
+  },
 };
