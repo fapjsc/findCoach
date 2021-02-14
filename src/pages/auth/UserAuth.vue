@@ -18,7 +18,7 @@
           <input type="password" id="password" v-model.trim="password" />
         </div>
 
-        <p v-if="!formIsValid">請輸入有效的email,且密碼至少3位數</p>
+        <p v-if="!formIsValid">請輸入有效的email,且密碼至少6位數</p>
 
         <base-button>{{ submitBtnCaption }}</base-button>
         <base-button @click="switchAuthMode" type="button" mode="flat">
@@ -81,8 +81,12 @@ export default {
       this.isLoading = true;
       try {
         if (this.mode === '註冊') {
-          console.log('hi');
           await this.$store.dispatch('signup', {
+            email: this.email,
+            password: this.password,
+          });
+        } else {
+          await this.$store.dispatch('login', {
             email: this.email,
             password: this.password,
           });
@@ -98,7 +102,7 @@ export default {
       if (
         this.email == '' ||
         !this.email.includes('@') ||
-        this.password.length < 3
+        this.password.length < 6
       ) {
         this.formIsValid = false;
       }

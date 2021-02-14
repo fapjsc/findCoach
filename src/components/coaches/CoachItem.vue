@@ -21,6 +21,9 @@
 <script>
 export default {
   props: ['coach'],
+  data() {
+    return {};
+  },
   computed: {
     fullName() {
       return `${this.coach.firstName} ${this.coach.lastName}`;

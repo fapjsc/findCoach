@@ -21,7 +21,8 @@
             :message="req.message"
           />
         </ul>
-        <h3 v-else>You haven't received any requests yet!</h3>
+        <h3 v-else-if="hasToken && !isLoading">目前還沒有訊息</h3>
+        <h3 v-else-if="!hasToken && !isLoading">請先登入並且註冊爲coach</h3>
       </base-card>
     </section>
   </div>
@@ -50,6 +51,10 @@ export default {
 
     hasRequests() {
       return this.$store.getters['requests/hasRequests'];
+    },
+
+    hasToken() {
+      return this.$store.getters['token'];
     },
   },
 

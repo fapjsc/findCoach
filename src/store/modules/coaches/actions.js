@@ -1,6 +1,8 @@
 export default {
   async registerCoach(context, payload) {
     const userId = context.rootGetters.userId;
+    const token = context.rootGetters.token;
+
     const registerdata = {
       firstName: payload.first,
       lastName: payload.last,
@@ -10,7 +12,7 @@ export default {
     };
 
     const res = await fetch(
-      `https://findcoach-6205f-default-rtdb.firebaseio.com//coaches/${userId}.json`,
+      `https://findcoach-6205f-default-rtdb.firebaseio.com//coaches/${userId}.json?auth=${token}`,
       {
         method: 'PUT',
         body: JSON.stringify(registerdata)
