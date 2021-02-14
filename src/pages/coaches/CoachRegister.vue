@@ -1,18 +1,20 @@
 <template>
-  <base-dialog
-    :show="!!error"
-    :title="'something went wrong'"
-    @close="handleError"
-  >
-    {{ error }}
-  </base-dialog>
-  <section>
-    <base-card>
-      <h2>Register as a coach now!</h2>
-      <base-spinner v-if="isLoading"></base-spinner>
-      <CoachForm v-else @saveData="saveData" />
-    </base-card>
-  </section>
+  <div>
+    <base-dialog
+      :show="!!error"
+      :title="'something went wrong'"
+      @close="handleError"
+    >
+      {{ error }}
+    </base-dialog>
+    <section>
+      <base-card>
+        <h2>Register as a coach now!</h2>
+        <base-spinner v-if="isLoading"></base-spinner>
+        <CoachForm v-else @saveData="saveData" />
+      </base-card>
+    </section>
+  </div>
 </template>
 
 

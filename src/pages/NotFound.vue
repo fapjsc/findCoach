@@ -1,3 +1,11 @@
 <template>
-  <div>not found</div>
+  <section>
+    <base-card>
+      <h2>Page not found</h2>
+      <p>
+        This page could not be bound - maybe check out all our
+        <router-link to="/coaches">Coaches</router-link>
+      </p>
+    </base-card>
+  </section>
 </template>

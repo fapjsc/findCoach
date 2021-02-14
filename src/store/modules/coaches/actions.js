@@ -6,14 +6,14 @@ export default {
       lastName: payload.last,
       areas: payload.areas,
       description: payload.desc,
-      hourlyRate: payload.rate,
+      hourlyRate: payload.rate
     };
 
     const res = await fetch(
       `https://findcoach-6205f-default-rtdb.firebaseio.com//coaches/${userId}.json`,
       {
         method: 'PUT',
-        body: JSON.stringify(registerdata),
+        body: JSON.stringify(registerdata)
       }
     );
 
@@ -26,11 +26,14 @@ export default {
 
     context.commit('registerCoach', {
       ...registerdata,
-      id: userId,
+      id: userId
     });
   },
 
-  async loadCoaches(context) {
+  async loadCoaches(context, payload) {
+    if (!context.getters.shouldUpdate && !payload.forceRefresh) {
+      return;
+    }
     const res = await fetch(
       `https://findcoach-6205f-default-rtdb.firebaseio.com//coaches.json`
     );
@@ -51,12 +54,13 @@ export default {
         lastName: data[key].lastName,
         areas: data[key].areas,
         description: data[key].description,
-        hourlyRate: data[key].hourlyRate,
+        hourlyRate: data[key].hourlyRate
       };
 
       coaches.push(coach);
     }
 
     context.commit('setCoaches', coaches);
-  },
+    context.commit('setFetchTimestamp');
+  }
 };

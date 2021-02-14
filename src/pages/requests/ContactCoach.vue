@@ -1,30 +1,32 @@
 <template>
-  <base-dialog
-    :show="!!error"
-    :title="'something went wrong'"
-    @close="handleError"
-  >
-    {{ error }}
-  </base-dialog>
-  <form @submit.prevent="formSubmit">
-    <div class="form-control">
-      <label for="email">Your email</label>
-      <input type="email" id="email" v-model.trim="email" />
-    </div>
+  <div>
+    <base-dialog
+      :show="!!error"
+      :title="'something went wrong'"
+      @close="handleError"
+    >
+      {{ error }}
+    </base-dialog>
+    <form @submit.prevent="formSubmit">
+      <div class="form-control">
+        <label for="email">Your email</label>
+        <input type="email" id="email" v-model.trim="email" />
+      </div>
 
-    <div class="form-control">
-      <label for="message">message</label>
-      <textarea id="message" rows="5" v-model.trim="message"></textarea>
-    </div>
+      <div class="form-control">
+        <label for="message">message</label>
+        <textarea id="message" rows="5" v-model.trim="message"></textarea>
+      </div>
 
-    <div class="actions">
-      <base-button>Send Message</base-button>
-    </div>
+      <div class="actions">
+        <base-button>Send Message</base-button>
+      </div>
 
-    <p v-if="!formIsValid" class="errors">
-      請輸入正確的emal或是message不得爲空
-    </p>
-  </form>
+      <p v-if="!formIsValid" class="errors">
+        請輸入正確的emal或是message不得爲空
+      </p>
+    </form>
+  </div>
 </template>
 
 <script>

@@ -1,37 +1,41 @@
 <template>
-  <base-dialog
-    :show="!!error"
-    :title="'smoething is wrong'"
-    @close="handleError"
-  >
-    {{ error }}
-  </base-dialog>
-  <section>
-    <CoachFilter @changeFilter="setFilter" />
-  </section>
+  <div>
+    <base-dialog
+      :show="!!error"
+      :title="'smoething is wrong'"
+      @close="handleError"
+    >
+      {{ error }}
+    </base-dialog>
+    <section>
+      <CoachFilter @changeFilter="setFilter" />
+    </section>
 
-  <section>
-    <base-card>
-      <div class="controls">
-        <base-button @click="loadCoaches" class="outline">Refresh</base-button>
-        <base-button v-if="!isCoach && !isLoading" link to="/register"
-          >Register as coach</base-button
-        >
-      </div>
+    <section>
+      <base-card>
+        <div class="controls">
+          <base-button @click="loadCoaches(true)" class="outline"
+            >Refresh</base-button
+          >
+          <base-button v-if="!isCoach && !isLoading" link to="/register"
+            >Register as coach</base-button
+          >
+        </div>
 
-      <base-spinner v-if="isLoading"></base-spinner>
+        <base-spinner v-if="isLoading"></base-spinner>
 
-      <ul v-else-if="hasCoaches">
-        <CoachItem
-          v-for="coach in filteredCoaches"
-          :key="coach.id"
-          :coach="coach"
-        />
-      </ul>
+        <ul v-else-if="hasCoaches">
+          <CoachItem
+            v-for="coach in filteredCoaches"
+            :key="coach.id"
+            :coach="coach"
+          />
+        </ul>
 
-      <h3 v-else>No Coaches found.</h3>
-    </base-card>
-  </section>
+        <h3 v-else>No Coaches found.</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 
@@ -94,10 +98,12 @@ export default {
       this.filterActive = updatefilter;
     },
 
-    async loadCoaches() {
+    async loadCoaches(refresh = false) {
       this.isLoading = true;
       try {
-        await this.$store.dispatch('coaches/loadCoaches');
+        await this.$store.dispatch('coaches/loadCoaches', {
+          forceRefresh: refresh,
+        });
       } catch (error) {
         this.error = error || 'fetch coaches error';
       }
