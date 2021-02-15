@@ -41,8 +41,8 @@ export default {
       throw error;
     }
 
-    // const expirseStamp = +resData.expiresIn * 1000;
-    const expirseStamp = 10000;
+    const expirseStamp = +resData.expiresIn * 1000; // 一小時
+    // const expirseStamp = 3000;    測試用
 
     const expiresDate = new Date().getTime() + expirseStamp;
 
@@ -51,7 +51,7 @@ export default {
     localStorage.setItem('tokenExpirse', expiresDate);
 
     timer = setTimeout(() => {
-      context.dispatch('logout');
+      context.dispatch('autoLogout');
     }, expirseStamp);
 
     context.commit('setUser', {
@@ -72,7 +72,7 @@ export default {
     }
 
     timer = setTimeout(() => {
-      context.dispatch('logout');
+      context.dispatch('autoLogout');
     }, expiresIn);
 
     if (token && userId) {
@@ -94,5 +94,10 @@ export default {
       token: null,
       userId: null
     });
+  },
+
+  autoLogout(context) {
+    context.dispatch('logout');
+    context.commit('setAutoLogout');
   }
 };

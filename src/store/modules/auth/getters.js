@@ -9,5 +9,9 @@ export default {
 
   isVerification(state) {
     return !!state.token;
+  },
+
+  didAutoLogout(state) {
+    return state.didAutoLogout;
   }
 };
