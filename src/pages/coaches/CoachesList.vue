@@ -31,7 +31,7 @@
             >登入並且成為coach</base-button
           >
 
-          <p v-if="isCoach">HI，{{ curCoach.lastName }}</p>
+          <p v-if="isCoach">HI，{{ curCoach.firstName }}</p>
         </div>
 
         <base-spinner v-if="isLoading"></base-spinner>
@@ -58,7 +58,6 @@ import CoachFilter from '@/components/coaches/CoachFilter';
 export default {
   created() {
     this.loadCoaches();
-    this.getCurCoach();
   },
   data() {
     return {
@@ -130,8 +129,6 @@ export default {
       }
       this.isLoading = false;
     },
-
-    getCurCoach() {},
 
     handleError() {
       this.error = null;
