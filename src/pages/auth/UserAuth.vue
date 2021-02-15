@@ -79,17 +79,17 @@ export default {
       }
 
       this.isLoading = true;
+
+      const actionPayload = {
+        email: this.email,
+        password: this.password,
+      };
+
       try {
         if (this.mode === '註冊') {
-          await this.$store.dispatch('signup', {
-            email: this.email,
-            password: this.password,
-          });
+          await this.$store.dispatch('signup', actionPayload);
         } else {
-          await this.$store.dispatch('login', {
-            email: this.email,
-            password: this.password,
-          });
+          await this.$store.dispatch('login', actionPayload);
         }
       } catch (error) {
         this.error = error;
