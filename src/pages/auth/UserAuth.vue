@@ -91,6 +91,10 @@ export default {
         } else {
           await this.$store.dispatch('login', actionPayload);
         }
+
+        const redirectUrl = `/${this.$route.query.redirect || 'coaches'}`;
+
+        this.$router.replace(redirectUrl);
       } catch (error) {
         this.error = error;
       }

@@ -15,13 +15,20 @@
       <base-card>
         <div class="controls">
           <base-button @click="loadCoaches(true)" class="outline"
-            >Refresh</base-button
+            >更新</base-button
           >
           <base-button
             v-if="!isCoach && !isLoading && isLogin"
             link
             to="/register"
-            >Register as coach</base-button
+            >成為coach</base-button
+          >
+
+          <base-button
+            v-if="!isCoach && !isLoading && !isLogin"
+            link
+            to="/auth?redirect=register"
+            >登入並且成為coach</base-button
           >
         </div>
 

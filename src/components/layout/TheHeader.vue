@@ -8,7 +8,7 @@
         <li>
           <router-link to="/coaches">All Coach</router-link>
         </li>
-        <li v-if="isLogin">
+        <li v-if="isLogin && isCoach">
           <router-link to="/requests">Requests</router-link>
         </li>
 
@@ -29,11 +29,16 @@ export default {
     isLogin() {
       return this.$store.getters['isVerification'];
     },
+
+    isCoach() {
+      return this.$store.getters['coaches/isCoach'];
+    },
   },
 
   methods: {
     logout() {
       this.$store.dispatch('logout');
+      this.$router.replace('/coaches');
     },
   },
 };
