@@ -37,7 +37,7 @@ export default {
       return;
     }
     const res = await fetch(
-      `https://findcoach-6205f-default-rtdb.firebaseio.com//coaches.json`
+      `https://findcoach-6205f-default-rtdb.firebaseio.com/coaches.json`
     );
 
     const data = await res.json();

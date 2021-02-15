@@ -22,5 +22,11 @@ export default {
     const currentTimeStamp = new Date().getTime();
 
     return (currentTimeStamp - lastFetch) / 1000 > 60;
+  },
+
+  curCoach(_, getters, _2, rootGetters) {
+    const coaches = getters.coaches;
+    const userId = rootGetters.userId;
+    return coaches.find(coach => coach.id === userId);
   }
 };

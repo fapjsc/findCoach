@@ -30,6 +30,8 @@
             to="/auth?redirect=register"
             >登入並且成為coach</base-button
           >
+
+          <p v-if="isCoach">HI，{{ curCoach.lastName }}</p>
         </div>
 
         <base-spinner v-if="isLoading"></base-spinner>
@@ -56,6 +58,7 @@ import CoachFilter from '@/components/coaches/CoachFilter';
 export default {
   created() {
     this.loadCoaches();
+    this.getCurCoach();
   },
   data() {
     return {
@@ -105,6 +108,10 @@ export default {
     isLogin() {
       return this.$store.getters['isVerification'];
     },
+
+    curCoach() {
+      return this.$store.getters['coaches/curCoach'];
+    },
   },
 
   methods: {
@@ -123,6 +130,8 @@ export default {
       }
       this.isLoading = false;
     },
+
+    getCurCoach() {},
 
     handleError() {
       this.error = null;

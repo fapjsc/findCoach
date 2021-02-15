@@ -15,7 +15,6 @@
         <li v-if="!isLogin">
           <router-link to="/auth">登入</router-link>
         </li>
-
         <base-button @click="logout" v-if="isLogin" mode="">登出</base-button>
       </ul>
     </nav>
